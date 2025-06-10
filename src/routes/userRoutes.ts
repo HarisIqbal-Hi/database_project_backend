@@ -9,6 +9,7 @@ router.get("/me", authenticate, userController.getProfile);
 export default router;
 
 
+
 /**
  * @swagger
  * tags:
