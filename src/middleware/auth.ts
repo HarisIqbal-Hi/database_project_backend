@@ -1,4 +1,4 @@
-import {Request, Response, NextFunction} from "express";
+import {NextFunction, Request, Response} from "express";
 import jwt from "jsonwebtoken";
 
 const ACCESS_SECRET = process.env.ACCESS_SECRET || "access_secret";
@@ -10,10 +10,9 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
         return
     }
     try {
-        const payload = jwt.verify(token, ACCESS_SECRET) as any;
-        req.user = payload;
+        req.user = jwt.verify(token, ACCESS_SECRET) as any;
         next();
     } catch (e) {
-        res.status(401).json({error: "Invalid token."});
+        res.status(401).json({error: "Invalid or expired token."});
     }
 }

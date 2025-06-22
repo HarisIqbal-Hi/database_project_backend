@@ -1,68 +1,66 @@
 import express from "express";
 import * as placeController from "../controllers/placeController";
+import { usersAtPlace, matchUsersAtPlace } from "../controllers/userController";
+import {authenticate} from "../middleware/auth";
 
 const router = express.Router();
 
 router.get("/", placeController.listPlaces);         // GET /places?categoryId=1&search=keyword
 router.get("/:id", placeController.getPlace);        // GET /places/123
 router.get("/geojson", placeController.getPlacesGeoJSON);
+router.get("/:id/users", usersAtPlace);
+router.get("/:id/match", authenticate, matchUsersAtPlace);
 
 export default router;
 /**
  * @swagger
- * tags:
- *   name: Places
- *   description: Manage cultural sites
- */
-
-/**
- * @swagger
- * /places:
+ * /api/places/{id}/users:
  *   get:
- *     summary: Get all places (with optional filter/search)
  *     tags: [Places]
- *     parameters:
- *       - in: query
- *         name: categoryId
- *         schema:
- *           type: integer
- *         description: Filter by category
- *       - in: query
- *         name: search
- *         schema:
- *           type: string
- *         description: Search by name
- *     responses:
- *       200:
- *         description: List of places
- */
-
-/**
- * @swagger
- * /places/{id}:
- *   get:
- *     summary: Get place details by ID
- *     tags: [Places]
+ *     summary: List all users currently checked in at this place
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: integer
  *         required: true
+ *         description: Place ID
  *     responses:
  *       200:
- *         description: Place details
- *       404:
- *         description: Not found
- */
-
-/**
- * @swagger
- * /places/geojson:
+ *         description: List of users checked in
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 users:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/User'
+ *
+ * /api/places/{id}/match:
  *   get:
- *     summary: Get all places as a GeoJSON FeatureCollection
  *     tags: [Places]
+ *     summary: List users checked in at this place who share your interests
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Place ID
  *     responses:
  *       200:
- *         description: GeoJSON data
+ *         description: List of matching users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 matches:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/User'
  */

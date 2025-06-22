@@ -1,43 +1,22 @@
 import express from "express";
 import { authenticate } from "../middleware/auth";
-import * as userController from "../controllers/userController";
+import { updateProfile, getProfile, updateInterests, checkin } from "../controllers/userController";
+
 const router = express.Router();
 
-router.patch("/me", authenticate, userController.updateProfile);
-router.get("/me", authenticate, userController.getProfile);
+router.get("/me", authenticate, getProfile);
+router.patch("/me", authenticate, updateProfile);
+router.patch("/interests", authenticate, updateInterests);      // NEW
+router.post("/checkin", authenticate, checkin);                 // NEW
 
 export default router;
 
-
-
 /**
  * @swagger
- * tags:
- *   name: User
- *   description: User profile endpoints
- */
-
-/**
- * @swagger
- * /user/me:
- *   get:
- *     summary: Get current user's profile
- *     tags: [User]
- *     security:
- *       - cookieAuth: []
- *     responses:
- *       200:
- *         description: User profile
- *       401:
- *         description: Not authenticated
- */
-
-/**
- * @swagger
- * /user/me:
+ * /api/user/interests:
  *   patch:
- *     summary: Update current user's profile
  *     tags: [User]
+ *     summary: Set or update your interests
  *     security:
  *       - cookieAuth: []
  *     requestBody:
@@ -47,15 +26,32 @@ export default router;
  *           schema:
  *             type: object
  *             properties:
- *               name:
- *                 type: string
- *               location:
- *                 type: string
+ *               interests:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *             required: [interests]
  *     responses:
  *       200:
- *         description: Profile updated
- *       400:
- *         description: Bad input
- *       401:
- *         description: Not authenticated
+ *         description: Updated user interests
+ *
+ * /api/user/checkin:
+ *   post:
+ *     tags: [User]
+ *     summary: Check in to a place
+ *     security:
+ *       - cookieAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               placeId:
+ *                 type: integer
+ *             required: [placeId]
+ *     responses:
+ *       200:
+ *         description: Checked in
  */

@@ -28,3 +28,18 @@ cd chemnitz-cultural-sites
 ```bash
 npm install
 ```
+### 3. **Set up environment variables**
+```bash
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=your_db_user
+DB_PASSWORD=your_db_password
+DB_NAME=your_db_name
+ACCESS_SECRET=your_jwt_access_secret
+REFRESH_SECRET=your_jwt_refresh_secret
+NODE_ENV=development
+```
+### 4. **Prepare the PostgreSQL database**
+```bash
+createdb your_db_name
+```

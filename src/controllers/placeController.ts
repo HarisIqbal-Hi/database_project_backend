@@ -5,6 +5,7 @@ export async function listPlaces(req: Request, res: Response) {
     const categoryId = req.query.categoryId ? Number(req.query.categoryId) : undefined;
     const search = req.query.search as string | undefined;
     const places = await placeModel.getPlaces({categoryId, search});
+    console.log(places.length);
     res.json({places});
 }
 

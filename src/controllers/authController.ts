@@ -45,8 +45,8 @@ function setTokens(res: Response, user: any) {
 
 // --- Signup ---
 export async function signup(req: Request, res: Response) {
-    const { username, email, password } = req.body;
-    if (!username || !email || !password) {
+    const { username, email, password, full_name } = req.body;
+    if (!username || !email || !password || !full_name) {
         res.status(400).json({ error: "All fields are required." });
         return
     }
@@ -60,7 +60,7 @@ export async function signup(req: Request, res: Response) {
     const hash = await bcrypt.hash(password, 10);
 
     try {
-        const user = await authModel.createUser(username, email, hash);
+        const user = await authModel.createUser(username, email, hash,full_name);
         setTokens(res, user);
         res.status(201).json({ user: { id: user.id, username, email } });
         return
@@ -73,12 +73,14 @@ export async function signup(req: Request, res: Response) {
 // --- Login ---
 export async function login(req: Request, res: Response) {
     const { username, password } = req.body;
+    console.log(username, password);
     if (!username || !password) {
         res.status(400).json({ error: "Username and password required." });
         return
     }
 
     const user = await authModel.findUserByUsername(username);
+    console.log(user);
     if (!user || !(await bcrypt.compare(password, user.password_hash))) {
         res.status(401).json({ error: "Invalid username or password." });
         return
@@ -115,4 +117,9 @@ export async function refreshToken(req: Request, res: Response) {
         res.status(401).json({ error: "Invalid or expired refresh token." });
         return
     }
+}
+export function logout(req: Request, res: Response) {
+    res.clearCookie("access_token");
+    res.clearCookie("refresh_token");
+    res.json({ message: "Logged out." });
 }
