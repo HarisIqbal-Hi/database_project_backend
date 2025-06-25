@@ -23,3 +23,8 @@ export async function getFavorites(userId: number) {
     );
     return result.rows;
 }
+
+export async function getTotalFavoritesCount() {
+    const res = await client.query("SELECT COUNT(*) FROM favorites");
+    return Number(res.rows[0].count);
+}

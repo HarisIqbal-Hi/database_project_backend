@@ -11,6 +11,7 @@ import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./swagger";
 import reviewRoutes from "./routes/reviewRoutes";
 import achievementRoutes from "./routes/achievementRoutes";
+import visitedRoutes from "./routes/visitedRoutes";
 
 const app = express();
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
@@ -19,6 +20,7 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
+app.use("/api/visited", visitedRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/achievements", achievementRoutes);
 app.get("/api/hello", (req:any, res:any) => res.send("hello!"));

@@ -4,23 +4,28 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import * as achievementModel from "../models/achievementModel";
 
-
 // PATCH /api/user/me
 export async function updateProfile(req: Request, res: Response, next: Function) {
     try {
         const userId = req.user.id;
-        const {name, location} = req.body;
+        const {name, location, interests, email} = req.body;
 
         if (name !== undefined && typeof name !== "string") {
             res.status(400).json({error: "Name must be a string."});
             return
         }
-        if (location !== undefined && typeof location !== "string") {
+        let locationPoint = null;
+        if (location && typeof location === 'object') {
+            locationPoint = `POINT(${location.lng} ${location.lat})`;
+        }
+        if (locationPoint !== undefined && typeof locationPoint !== "string") {
             res.status(400).json({error: "Location must be a string."});
             return
         }
 
-        const result = await userModel.updateUser(userId, name, location);
+        console.log("update userinformation", name, location, interests, email);
+        const result = await userModel.updateUser(userId, name, locationPoint,interests, email);
+        console.log(result);
         res.json({user: result});
     } catch (e) {
         next(e);
@@ -32,7 +37,7 @@ export async function getProfile(req: Request, res: Response, next: Function) {
     try {
         const userId = req.user.id;
         const user = await userModel.findUserById(userId);
-        console.log(user);
+        console.log("user information",user);
         res.json({user});
     } catch (e) {
         next(e);

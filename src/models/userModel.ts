@@ -26,21 +26,35 @@ export async function getUsersCheckedIn(placeId: number) {
     return result.rows;
 }
 
-export async function updateUser(id: number, name?: string, location?: string) {
+export async function updateUser(id: number, name?: string, location?: string,interests?:string[], email?: string) {
     const result = await client.query(
         `UPDATE users SET
-            full_name = COALESCE($2, full_name),
-            location = COALESCE($3, location)
-        WHERE id = $1 RETURNING id, username,full_name, email, location`,
-        [id, name, location]
+                          full_name = COALESCE($2, full_name),
+                          location = COALESCE($3, location),
+                          interests = COALESCE($4, interests),
+                          email = COALESCE($5, email)
+         WHERE id = $1
+             RETURNING id, username, full_name, email, location, interests`,
+        [id, name, location, interests, email]
     );
     return result.rows[0];
 }
 
 export async function findUserById(id: number) {
     const result = await client.query(
-        "SELECT id, username, email, full_name , location FROM users WHERE id = $1",
+        `SELECT id, username, interests, email, full_name,
+            ST_X(location) AS lng,
+            ST_Y(location) AS lat
+     FROM users WHERE id = $1`,
         [id]
     );
-    return result.rows[0];
+    const row = result.rows[0];
+    if (row && row.lat != null && row.lng != null) {
+        row.location = { lat: row.lat, lng: row.lng };
+    } else {
+        row.location = null;
+    }
+    delete row.lat;
+    delete row.lng;
+    return row;
 }

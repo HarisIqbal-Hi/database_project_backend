@@ -5,8 +5,8 @@ import {authenticate} from "../middleware/auth";
 
 const router = express.Router();
 
-router.get("/", placeController.listPlaces);         // GET /places?categoryId=1&search=keyword
-router.get("/:id", placeController.getPlace);        // GET /places/123
+router.get("/",authenticate, placeController.listPlaces);         // GET /places?categoryId=1&search=keyword
+router.get("/:id",authenticate, placeController.getPlace);        // GET /places/123
 router.get("/geojson", placeController.getPlacesGeoJSON);
 router.get("/:id/users", usersAtPlace);
 router.get("/:id/match", authenticate, matchUsersAtPlace);

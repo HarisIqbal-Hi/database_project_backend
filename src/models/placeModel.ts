@@ -37,6 +37,11 @@ export async function getPlaceById(id: number) {
     return result.rows[0];
 }
 
+export async function getTotalPlacesCount() {
+    const res = await client.query("SELECT COUNT(*) FROM places");
+    return Number(res.rows[0].count);
+}
+
 export async function getPlacesGeoJSON() {
     const result = await client.query(`
         SELECT jsonb_build_object(

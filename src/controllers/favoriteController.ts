@@ -29,10 +29,12 @@ export async function removeFavorite(req: Request, res: Response) {
     await favoriteModel.removeFavorite(userId, Number(placeId));
     res.json({message: "Removed from favorites."});
 }
-
-export async function getFavorites(req: Request, res: Response) {
-    const userId = req.user.id;
-    const favorites = await favoriteModel.getFavorites(userId);
-    res.json({favorites});
+export async function getFavorites(req: Request, res: Response, next: Function) {
+    try {
+        const userId = req.user.id;
+        const favorites = await favoriteModel.getFavorites(userId);
+        res.json({ favorites });
+    } catch (e) {
+        next(e);
+    }
 }
-

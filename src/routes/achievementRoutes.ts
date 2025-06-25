@@ -1,10 +1,10 @@
 import express from "express";
 import { authenticate } from "../middleware/auth";
-import { getMyAchievements } from "../controllers/achievementController";
+import {getUserAchievements} from "../controllers/achievementController";
 
 const router = express.Router();
 
-router.get("/", authenticate, getMyAchievements);
+router.get("/", authenticate, getUserAchievements);
 
 export default router;
 /**

@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import client from "../connection"; // Adjust the import if your connection file is elsewhere
 
-const sqlFile = path.join(__dirname, "createFavoritesTable.sql");
+const sqlFile = path.join(__dirname, "achivements.sql");
 const sql = fs.readFileSync(sqlFile, "utf8");
 
 async function runMigration() {
