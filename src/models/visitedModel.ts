@@ -1,4 +1,4 @@
-import client from "../db/connection";
+import client from "../db_script/connection";
 
 export async function addVisited(userId: number, placeId: number) {
     // Insert if not already exists

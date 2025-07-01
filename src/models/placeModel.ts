@@ -1,4 +1,4 @@
-import client from "../db/connection";
+import client from "../db_script/connection";
 
 export async function getPlaces({ categoryId, search }: { categoryId?: number, search?: string }) {
     let query = `

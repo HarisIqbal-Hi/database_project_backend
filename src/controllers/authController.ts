@@ -45,6 +45,7 @@ function setTokens(res: Response, user: any) {
 
 // --- Signup ---
 export async function signup(req: Request, res: Response) {
+    console.log("test server");
     const { username, email, password, full_name } = req.body;
     if (!username || !email || !password || !full_name) {
         res.status(400).json({ error: "All fields are required." });
@@ -62,9 +63,11 @@ export async function signup(req: Request, res: Response) {
     try {
         const user = await authModel.createUser(username, email, hash,full_name);
         setTokens(res, user);
+        console.log("user",user);
         res.status(201).json({ user: { id: user.id, username, email } });
         return
     } catch (err) {
+        console.error(err);
         res.status(500).json({ error: "Error creating user." });
         return
     }

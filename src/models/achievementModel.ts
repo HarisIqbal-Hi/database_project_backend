@@ -1,4 +1,4 @@
-import client from "../db/connection";
+import client from "../db_script/connection";
 
 export async function addAchievement(userId: number, type: string, description: string) {
     const result = await client.query(

@@ -1,4 +1,4 @@
-import client from "../db/connection";
+import client from "../db_script/connection";
 
 export async function createUser(username: string, email: string, hash: string, fullName: string) {
     const result = await client.query(

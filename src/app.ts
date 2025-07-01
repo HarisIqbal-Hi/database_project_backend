@@ -9,7 +9,6 @@ import { errorHandler } from "./middleware/errorHandler";
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./swagger";
-import reviewRoutes from "./routes/reviewRoutes";
 import achievementRoutes from "./routes/achievementRoutes";
 import visitedRoutes from "./routes/visitedRoutes";
 
@@ -21,9 +20,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/visited", visitedRoutes);
-app.use("/api/reviews", reviewRoutes);
 app.use("/api/achievements", achievementRoutes);
-app.get("/api/hello", (req:any, res:any) => res.send("hello!"));
 app.use("/api/auth", authRoutes);
 app.use("/api/places", placeRoutes);
 app.use("/api/favorites", favoriteRoutes);

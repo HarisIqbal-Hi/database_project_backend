@@ -10,13 +10,13 @@ router.get("/", authenticate, favoriteController.getFavorites);
 
 export default router;
 
+
 /**
  * @swagger
  * tags:
  *   name: Favorites
  *   description: Manage user favorites
  */
-
 /**
  * @swagger
  * /favorites:

@@ -19,7 +19,7 @@ export async function updateProfile(req: Request, res: Response, next: Function)
             locationPoint = `POINT(${location.lng} ${location.lat})`;
         }
         if (locationPoint !== undefined && typeof locationPoint !== "string") {
-            res.status(400).json({error: "Location must be a string."});
+            res.status(400).json({error: "Please select a location."});
             return
         }
 

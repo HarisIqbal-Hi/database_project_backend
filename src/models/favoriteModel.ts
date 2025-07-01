@@ -1,4 +1,4 @@
-import client from "../db/connection";
+import client from "../db_script/connection";
 
 export async function addFavorite(userId: number, placeId: number) {
     const result = await client.query(

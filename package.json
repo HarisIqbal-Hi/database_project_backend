@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "import:geojson": "npx ts-node src/db + script/importGeojson.ts",
     "start": "node dist/app.js",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts"
   },

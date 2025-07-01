@@ -1,4 +1,4 @@
-import client from "../db/connection";
+import client from "../db_script/connection";
 
 export async function addReview(userId: number, placeId: number, rating: number, vibe_rating: number, comment: string) {
     const result = await client.query(
